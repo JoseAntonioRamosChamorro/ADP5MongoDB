@@ -1,5 +1,7 @@
 package mongo;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -15,10 +17,13 @@ public class Principal {
 		 MongoClient conexion = MongoClients.create("mongodb://localhost:27017");
 		 MongoDatabase database = conexion.getDatabase("ADP5");
 		 MongoCollection<Document> alumnos = database.getCollection("harry-potter");
-		insertarDocumentos(alumnos);
+	//	insertarDocumentos(alumnos);
 		consultarDocumentos(alumnos);
+		actualizarDocumentos(alumnos);
+		eliminarDocumentos(alumnos);
 	}
 	
+
 	public static void insertarDocumentos(MongoCollection<Document>alumnos)
 	 {
 		//insertar Individual
@@ -72,7 +77,16 @@ public class Principal {
 		
 		
 	}
+	public static void actualizarDocumentos(MongoCollection<Document> alumnos) {
+		alumnos.updateOne(eq("name", "Harry Potter"), set("species", "human"));
+		System.out.println("cambiado");
 		
+	}
+	public static void eliminarDocumentos(MongoCollection<Document>
+	alumnos) {
+		Bson filter = eq("species","humano");
+		alumnos.deleteOne(filter);
+	}
 	}
 
 
